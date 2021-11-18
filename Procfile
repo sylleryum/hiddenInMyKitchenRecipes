@@ -1,1 +1,1 @@
-web: gunicorn himkrecipes.wsgi
+web: gunicorn himkrecipes.wsgi --log-file -
