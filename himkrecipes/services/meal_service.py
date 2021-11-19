@@ -9,7 +9,10 @@ SAMPLE_MEAL = "52772"
 SEARCH_CATEGORY = ENDPOINT + "filter.php?c="
 SEARCH_INGREDIENT = ENDPOINT + "filter.php?i="
 SEARCH_AREA = ENDPOINT + "filter.php?a="
+
 GET_INGREDIENTS = ENDPOINT + "list.php?i=list"
+KEY_INGREDIENT = "strIngredient"
+ORDER_INGREDIENT = "strIngredient"
 
 CATEGORY_CATEGORIES = 1
 CATEGORY_COUNTRY = 2
@@ -23,8 +26,12 @@ def get_recipe(recipe_id: int):
     return json_response
 
 
-def get_all_ingredients():
-    result = api_call.get(GET_INGREDIENTS).json()['meals']
+def get_all_ingredients(keys, order):
+    result: list = api_call.get(GET_INGREDIENTS).json()['meals']
+    if keys == KEY_INGREDIENT:
+        result = list(map(lambda x: (x['strIngredient']), result))
+    if order == ORDER_INGREDIENT:
+        result.sort()
     return result
 
 

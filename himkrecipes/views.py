@@ -3,7 +3,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-
 # @permission_classes([IsAuthenticated])
 # @permission_classes([])
 # class GetRecipe(GenericAPIView):
@@ -51,7 +50,12 @@ def search_ingredients(request):
 
 @api_view(['get'])
 def get_all_ingredients(request):
-    result = meal_service.get_all_ingredients()
+    # if 'keys' in request.query_params:
+    result = meal_service.get_all_ingredients(request.query_params.dict().get('keys'),
+                                              request.query_params.dict().get('order'))
+    # else:
+    #     result = meal_service.get_all_ingredients(request.query_params['keys'])
+
     wrapper = {'total': len(result),
                'results': result}
     return Response(data=wrapper, status=status.HTTP_200_OK)
